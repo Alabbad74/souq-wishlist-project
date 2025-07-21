@@ -16,6 +16,10 @@ mongoose.connection.on('connected', () => {
     console.log(`Connected to MongoDB ${mongoose.connection.name} 🙃.`)
 })
 
+// VIEW ENGINE SETUP
+app.set('view engine', 'ejs')
+app.set('views', './views')
+
 // MIDDLEWARE
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
