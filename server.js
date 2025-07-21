@@ -1,6 +1,7 @@
 require('dotenv').config({ quiet: true })
 const express = require('express')
 const app = express()
+const router = express.Router()
 const methodOverride = require('method-override')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
@@ -9,6 +10,9 @@ const MongoStore = require('connect-mongo')
 const authController = require('./controllers/auth.controller')
 const isSignedIn = require('./middleware/is-signed-in')
 const passUserToView = require('./middleware/pass-user-to-view')
+const wishlistController = require('./controllers/wishlist.controller')
+const WishlistItem = require('./models/wishlistItem')
+
 
 // DATABASE CONNECTION
 mongoose.connect(process.env.MONGODB_URI)
@@ -21,6 +25,7 @@ app.set('view engine', 'ejs')
 app.set('views', './views')
 
 // MIDDLEWARE
+app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
 app.use(morgan('dev'))
@@ -40,6 +45,7 @@ app.get('/', (req, res) => {
 
 // ROUTES
 app.use('/auth', authController)
+app.use('/wishlist', wishlistController)
 
 app.get('/vip-lounge', isSignedIn, (req, res) => {
     res.send(`Welcome ✨`)

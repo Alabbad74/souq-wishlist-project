@@ -1,0 +1,28 @@
+
+<%- include('../partials/head') %>
+
+<form action="/wishlist" method="POST" class="container mt-4 wishlist-form">
+  <h2 class="mb-4">Add to Your Wishlist</h2>
+
+  <div class="mb-3">
+    <label for="title" class="form-label">Item Name</label>
+    <input type="text" name="title" id="title" class="form-control" placeholder="What do you want?" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea name="description" id="description" class="form-control" rows="3" placeholder="Why do you want this?" required></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Target Price (BHD)</label>
+    <input type="number" name="price" id="price" class="form-control" min="0" placeholder="How much are you willing to spend?" required />
+  </div>
+
+  <div class="mb-3">
+    <label for="imageUrl" class="form-label">Image URL (Optional)</label>
+    <input type="text" name="imageUrl" id="imageUrl" class="form-control" placeholder="https://example.com/image.jpg" />
+  </div>
+
+  <button type="submit" class="btn btn-success">Add to Wishlist</button>
+</form>
