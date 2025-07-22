@@ -1,0 +1,58 @@
+
+/* ===== CARD STYLES ===== */
+.card.h-100 {
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  width: 500px; 
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card.h-100:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ===== IMAGE STYLES ===== */
+.img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+/* ===== DELETE FORM STYLES ===== */
+.DELETE {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.DELETE button {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* ===== BUTTON STYLES ===== */
+.btn-outline-primary:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* ===== CONTAINER STYLES ===== */
+.container {
+  max-width: 1200px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) { 
+  .card.h-100 {
+    width: 100%;
+    height: auto;
+    } }
+
+.my-class {
+  color: red; /* Inline comment explaining this property */
+}

@@ -6,6 +6,7 @@ const wishlistItemSchema = new Schema({
   description: String,
   price: Number,
   imageUrl: String,
+  comments: String, // Personal notes/comments for the item
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
