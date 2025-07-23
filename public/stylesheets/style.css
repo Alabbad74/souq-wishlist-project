@@ -263,13 +263,8 @@ input, textarea {
   border-radius: 12px;
   border: 1px solid #e0e0e0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
   padding: 20px;
-}
-.browse-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .browse-card img {
   width: 100%;
@@ -301,4 +296,149 @@ input, textarea {
   padding: 8px 20px;
   font-size: 0.9rem;
   border-radius: 6px;
+}
+
+/* ================= AUTHENTICATION FORMS ================= */
+/* Sign Up / Sign In Form Container */
+.auth-container {
+  background: #f8f9fa;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 50px 40px;
+  text-align: center;
+}
+
+/* ================= MY WISHLIST PAGE ================= */
+/* My Wishlist Item Cards */
+.my-wishlist-card-img {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* ================= WISHLIST SHOW PAGE ================= */
+/* Individual Wishlist Item Display */
+.wishlist-show-img {
+  height: 400px;
+  object-fit: cover;
+}
+
+/* ================= HOME PAGE SPECIFIC ================= */
+.home-welcome-heading {
+  margin-bottom: 30px;
+}
+
+.home-join-heading {
+  margin-bottom: 15px;
+}
+
+.home-join-text {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+/* ================= BROWSE PAGE SPECIFIC ================= */
+.browse-page-title {
+  margin-bottom: 10px;
+}
+
+.browse-page-subtitle {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.browse-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.browse-empty-text {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.browse-owner-info {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 15px;
+}
+
+.browse-navigation {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.browse-nav-btn {
+  margin: 5px;
+}
+
+.auth-container h1, .auth-container h2 {
+  color: #000303;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* Form Labels */
+.auth-container label {
+  display: block;
+  text-align: left;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* Form Inputs */
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="email"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 25px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.auth-container input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+/* Submit Button - Blue Style */
+.auth-container button[type="submit"],
+.auth-container .btn-auth {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.auth-container button[type="submit"]:hover,
+.auth-container .btn-auth:hover {
+  background-color: #357abd;
+}
+
+/* Auth Links */
+.auth-container .auth-links {
+  margin-top: 20px;
+  color: #666;
+}
+
+.auth-container .auth-links a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-container .auth-links a:hover {
+  text-decoration: underline;
 }

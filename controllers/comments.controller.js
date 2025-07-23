@@ -21,18 +21,18 @@ router.get('/wishlist/:wishlistItemId', async (req, res) => {
 // POST - CREATE A NEW COMMENT
 router.post('/wishlist/:wishlistItemId', isSignedIn, async (req, res) => {
   try {
-    console.log('📝 Creating comment for wishlist:', req.params.wishlistItemId)
-    console.log('👤 User session:', req.session.user ? req.session.user.username : 'No user')
-    console.log('📄 Request body:', req.body)
+    console.log('Creating comment for wishlist:', req.params.wishlistItemId)
+    console.log('User session:', req.session.user ? req.session.user.username : 'No user')
+    console.log('Request body:', req.body)
     
     // Check if the wishlist item exists
     const wishlistItem = await WishlistItem.findById(req.params.wishlistItemId)
     if (!wishlistItem) {
-      console.log('❌ Wishlist item not found')
+      console.log('Wishlist item not found')
       return res.status(404).json({ error: 'Wishlist item not found' })
     }
 
-    console.log('✅ Wishlist item found:', wishlistItem.title)
+    console.log('Wishlist item found:', wishlistItem.title)
 
     // Create the comment
     const comment = await Comment.create({
@@ -42,12 +42,12 @@ router.post('/wishlist/:wishlistItemId', isSignedIn, async (req, res) => {
       wishlistItem: req.params.wishlistItemId
     })
 
-    console.log('✅ Comment created:', comment._id)
+    console.log('Comment created:', comment._id)
 
     // Populate author info for response
     await comment.populate('author', 'username')
 
-    console.log('✅ Comment populated, sending response')
+    console.log('Comment populated, sending response')
 
     // If this is an AJAX request, return JSON
     if (req.headers['content-type'] === 'application/json' || req.accepts('json')) {
@@ -57,7 +57,7 @@ router.post('/wishlist/:wishlistItemId', isSignedIn, async (req, res) => {
       res.redirect(`/wishlist/browse`)
     }
   } catch (error) {
-    console.log('❌ Error creating comment:', error)
+    console.log('Error creating comment:', error)
     if (req.accepts('json')) {
       res.status(500).json({ error: 'Failed to create comment' })
     } else {

@@ -3,25 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
   <link rel="stylesheet" href="/stylesheets/style.css">
   <title>Souq Wishlist</title>
 </head>
 <body>
 
-<!-- Navbar -->
-<div class="w3-bar w3-black">
-  <a href="/" class="w3-bar-item w3-button">Home</a>
-  <% if (user) { %>
-    <a href="/wishlist" class="w3-bar-item w3-button">My Wishlist</a>
-    <a href="/wishlist/browse" class="w3-bar-item w3-button">Browse Wishlists</a>
-    <a href="/auth/sign-out" class="w3-bar-item w3-button">Sign Out</a>
-  <% } else { %>
-    <a href="/wishlist/browse" class="w3-bar-item w3-button">Browse Wishlists</a>
-    <a href="/auth/sign-in" class="w3-bar-item w3-button">Sign In</a>
-    <a href="/auth/sign-up" class="w3-bar-item w3-button">Sign Up</a>
-  <% } %>
-</div>
+<%- include('./partials/head') %> <!-- Navbar -->
 
 <div class="container">
   <div class="home-hero">
@@ -29,20 +16,19 @@
     <p class="home-subtitle">Your personal wishlist app. Never forget what you want.</p>
 
     <% if (user) { %>
-      <h2 class="welcome-message">Welcome back, <%= user.username %>! 👋</h2>
-      <p class="home-description">Ready to manage your wishlist? Explore your items, browse others' wishlists, or add something new!</p>
-      <div class="button-container">
+      <h2 class="home-welcome-heading">Welcome, <%= user.username %>! 👋</h2>
+      <div>
         <a href="/wishlist" class="home-button">My Wishlist</a>
         <a href="/wishlist/browse" class="home-button browse">Browse Wishlists</a>
-        <a href="/wishlist/new" class="home-button add">Add New Item</a>
+        <a href="/wishlist/new" class="home-button add">Add Item</a>
       </div>
     <% } else { %>
-      <h3 class="welcome-message">Join Souq Wishlist Today!</h3>
-      <p class="home-description">Start creating and sharing your wishlists with friends and family. Discover amazing items and never forget what you want again.</p>
-      <div class="button-container">
+      <h3 class="home-join-heading">Join Souq Wishlist!</h3>
+      <p class="home-join-text">Start creating and sharing your wishlists today</p>
+      <div>
         <a href="/wishlist/browse" class="home-button browse">Browse Wishlists</a>
         <a href="/auth/sign-up" class="home-button signup">Sign Up</a>
-        <a href="/auth/sign-in" class="home-button signin">Sign In</a>
+        <a href="/auth/sign-in" class="home-button">Sign In</a>
       </div>
     <% } %>
   </div>
