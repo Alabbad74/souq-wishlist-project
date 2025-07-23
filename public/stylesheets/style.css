@@ -1,29 +1,97 @@
 
-/* ===== CARD STYLES ===== */
+/* ===== ANIMATED CODEPEN BUTTON STYLES ===== */
+/* From Uiverse.io by SelfMadeSystem */ 
+/* Yoinked from CodePen, but improved the animation
+so that it is smooth among other more minor things */
+
+.codepen-button {
+  display: block;
+  cursor: pointer;
+  color: white;
+  margin: 0 auto;
+  position: relative;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 3px;
+  isolation: isolate;
+  margin-bottom: auto;
+}
+
+.codepen-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400%;
+  height: 100%;
+  background: linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b);
+  background-size: 25% 100%;
+  animation: rainbow-border .75s linear infinite;
+  animation-play-state: paused;
+  translate: -5% 0%;
+  transition: translate 0.25s ease-out;
+}
+
+.codepen-button:hover::before {
+  animation-play-state: running;
+  transition-duration: 0.75s;
+  translate: 0% 0%;
+}
+
+@keyframes rainbow-border {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+.codepen-button span {
+  position: relative;
+  display: block;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  background: #000;
+  border-radius: 3px;
+  height: 100%;
+  text-align: center;
+}
+
+/* WISHLIST BUTTON STYLES */
+.wishlist-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+
 .card.h-100 {
   display: flex;
   flex-direction: column;
-  height: 70%;
+  height: 50vh;
   width: 500px; 
-  transition: transform 0.2s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 20px auto;
 }
 
-.card.h-100:hover {
+
+
+/* .card.h-100:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+} */
 
 /* ===== IMAGE STYLES ===== */
 .img {
-  width: 100%;
-  height: 200px;
+  width: 50vw;
+  height: auto;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
 
 /* ===== DELETE FORM STYLES ===== */
-.DELETE {
+/* .DELETE {
   display: inline-block;
   margin-left: 10px;
 }
@@ -33,26 +101,141 @@
   border-color: #dc3545;
   color: white;
   transition: all 0.3s ease;
-}
+} */
 
 /* ===== BUTTON STYLES ===== */
-.btn-outline-primary:hover {
+/* .btn-outline-primary:hover {
   transform: scale(1.05);
   transition: transform 0.2s ease;
-}
+} */
 
 /* ===== CONTAINER STYLES ===== */
-.container {
+/* .container {
   max-width: 1200px;
-}
+} */
 
 /* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) { 
+/* @media (max-width: 768px) { 
   .card.h-100 {
     width: 100%;
     height: auto;
-    } }
+    } } */
 
 .my-class {
   color: red; /* Inline comment explaining this property */
+}
+
+.my-btn {
+    background-color: chartreuse;
+    border: 0px;
+}
+
+/* From Uiverse.io by SelfMadeSystem */ 
+/* Yoinked from CodePen, but improved the animation
+so that it is smooth among other more minor things */
+
+/* ===== COMMENTS STYLES ===== */
+.comments-section {
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+.comment {
+  border-left: 3px solid #007bff;
+  transition: all 0.2s ease;
+}
+
+.comment:hover {
+  background-color: #f8f9fa !important;
+  border-left-color: #0056b3;
+}
+
+.comment-form .input-group {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.comment-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+.comments-count {
+  font-weight: 500;
+  color: #666;
+}
+
+.wishlist-browse-thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+/* ===== END COMMENTS STYLES ===== */
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+}
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.codepen-button {
+  display: block;
+  cursor: pointer;
+  color: white;
+  margin: 0 auto;
+  position: relative;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 3px;
+  isolation: isolate;
+}
+
+.codepen-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400%;
+  height: 100%;
+  background: linear-gradient(115deg,#4fcf70,#fad648,#a767e5,#12bcfe,#44ce7b);
+  background-size: 25% 100%;
+  animation: an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop .75s linear infinite;
+  animation-play-state: paused;
+  translate: -5% 0%;
+  transition: translate 0.25s ease-out;
+}
+
+.codepen-button:hover::before {
+  animation-play-state: running;
+  transition-duration: 0.75s;
+  translate: 0% 0%;
+}
+
+@keyframes an-at-keyframe-css-at-rule-that-translates-via-the-transform-property-the-background-by-negative-25-percent-of-its-width-so-that-it-gives-a-nice-border-animation_-We-use-the-translate-property-to-have-a-nice-transition-so-it_s-not-a-jerk-of-a-start-or-stop {
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+.codepen-button span {
+  position: relative;
+  display: block;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  background: #000;
+  border-radius: 3px;
+  height: 100%;
 }

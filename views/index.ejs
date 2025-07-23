@@ -1,34 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <title>Souq Wishlist</title>
+</head>
 <%- include('./partials/head') %>
 
 <div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-    
-          <h1>Souq Wishlist</h1>
-          <p>Your personal wishlist app. Never forget what you want.</p>
-        </div>
-      </div>
+    <div class="col-md-8 text-center">
+      <h1 class="mb-4">Souq Wishlist</h1>
+      <p class="lead mb-5">Your personal wishlist app. Never forget what you want.</p>
+    </div>
+  </div>
 
-      <!-- Auth Card -->
+  <!-- Auth Card -->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
       <% if (user) { %>
-        <div class="card bg-secondary text-dark">
+        <div class="card">
           <div class="card-body text-center py-4">
-            <h2 class="card-title mb-3">Welcome, <%= user.username %>!</h2>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-              <a href="/wishlist" class="btn btn-primary">My Wishlist</a>
-              <a href="/wishlist/browse" class="btn btn-info">Browse Wishlists</a>
-              <a href="/wishlist/new" class="btn btn-success">Add Item</a>
-              <a href="/auth/sign-out" class="btn btn-outline-dark">Sign out</a>
+            <h2 class="card-title mb-3">Welcome, <%= user.username %>! 👋</h2>
+            <div class="wishlist-buttons">
+              <a href="/wishlist" class="codepen-button"><span>My Wishlist</span></a>
+              <a href="/wishlist/browse" class="codepen-button"><span>Browse Wishlists</span></a>
+              <a href="/wishlist/new" class="codepen-button"><span>Add Item</span></a>
+              <a href="/auth/sign-out" class="codepen-button"><span>Sign Out</span></a>
             </div>
           </div>
         </div>
       <% } else { %>
-        <div class="card bg-secondary text-dark">
+        <div class="card">
           <div class="card-body text-center py-4">
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-              <a href="/wishlist/browse" class="btn btn-info">Browse Wishlists</a>
-              <a href="/auth/sign-up" class="btn btn-primary">Sign up</a>
-              <a href="/auth/sign-in" class="btn btn-outline-primary">Sign in</a>
+            <h3 class="mb-3">Join Souq Wishlist!</h3>
+            <p class="text-muted mb-4">Start creating and sharing your wishlists today</p>
+            <div class="wishlist-buttons">
+              <a href="/wishlist/browse" class="codepen-button"><span>Browse Wishlists</span></a>
+              <a href="/auth/sign-up" class="codepen-button"><span>Sign Up</span></a>
+              <a href="/auth/sign-in" class="codepen-button"><span>Sign In</span></a>
             </div>
           </div>
         </div>

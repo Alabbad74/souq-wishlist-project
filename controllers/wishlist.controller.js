@@ -3,7 +3,6 @@ const router = express.Router()
 const isSignedIn = require('../middleware/is-signed-in')
 const WishlistItem = require('../models/wishlistItem')
 
-
 // INDEX - Show user's own wishlist items
 router.get('/', isSignedIn, async (req, res) => {
   try {
@@ -31,6 +30,26 @@ router.get('/browse', async (req, res) => {
 // NEW WISHLIST ITEM FORM
 router.get('/new', isSignedIn, (req, res) => {
   res.render('wishlist/new.ejs')
+})
+
+// SHOW INDIVIDUAL ITEM WITH DETAILS AND COMMENTS
+router.get('/:id', async (req, res) => {
+  try {
+    // Find the specific wishlist item
+    const item = await WishlistItem.findById(req.params.id)
+      .populate('owner', 'username')
+    
+    // Check if item exists
+    if (!item) {
+      return res.status(404).send('Wishlist item not found')
+    }
+    
+    // Show the detailed view with comments
+    res.render('wishlist/show.ejs', { item })
+  } catch (error) {
+    console.log(error)
+    res.send('Something went wrong')
+  }
 })
 
 // POST FORM DATA TO DATABASE
@@ -61,42 +80,42 @@ router.get('/:id/edit', isSignedIn, async (req, res) => {
       return res.status(403).send('You can only edit your own wishlist items')
     }
     
-      // Show the edit form with the current data
-  res.render('wishlist/edit.ejs', { item })
-} catch (error) {
-  console.log(error)
-  res.send('Something went wrong')
-}
+    // Show the edit form with the current data
+    res.render('wishlist/edit.ejs', { item })
+  } catch (error) {
+    console.log(error)
+    res.send('Something went wrong')
+  }
 })
 
-// STEP 3B: PUT ROUTE - When user submits the edit form
+// STEP 3B: UPDATE ITEM - When user submits edit form
 router.put('/:id', isSignedIn, async (req, res) => {
-try {
-  // Find the item they're trying to update
-  const item = await WishlistItem.findById(req.params.id)
-  
-  // Check if item exists
-  if (!item) {
-    return res.status(404).send('Wishlist item not found')
+  try {
+    // Find the item they want to update
+    const item = await WishlistItem.findById(req.params.id)
+    
+    // Check if item exists
+    if (!item) {
+      return res.status(404).send('Wishlist item not found')
+    }
+    
+    // Security: Make sure they own this item
+    if (item.owner.toString() !== req.session.user._id.toString()) {
+      return res.status(403).send('You can only edit your own wishlist items')
+    }
+    
+    // Update the item with new data
+    await WishlistItem.findByIdAndUpdate(req.params.id, req.body)
+    
+    // Redirect back to their wishlist
+    res.redirect('/wishlist')
+  } catch (error) {
+    console.log(error)
+    res.send('Something went wrong')
   }
-  
-  // Security: Make sure they own this item
-  if (item.owner.toString() !== req.session.user._id.toString()) {
-    return res.status(403).send('You can only edit your own wishlist items')
-  }
-  
-  // Update the item with new data from the form
-  await WishlistItem.findByIdAndUpdate(req.params.id, req.body)
-  
-  // Redirect back to wishlist
-  res.redirect('/wishlist')
-} catch (error) {
-  console.log(error)
-  res.send('Something went wrong')
-}
 })
 
-// STEP 4: DELETE ROUTE - When user clicks "DELETE" button
+// STEP 4: DELETE ITEM - When user clicks DELETE button
 router.delete('/:id', isSignedIn, async (req, res) => {
   try {
     // Find the item they want to delete
@@ -112,10 +131,10 @@ router.delete('/:id', isSignedIn, async (req, res) => {
       return res.status(403).send('You can only delete your own wishlist items')
     }
     
-    // Delete the item from database
+    // Delete the item
     await WishlistItem.findByIdAndDelete(req.params.id)
     
-    // Redirect back to wishlist
+    // Redirect back to their wishlist
     res.redirect('/wishlist')
   } catch (error) {
     console.log(error)

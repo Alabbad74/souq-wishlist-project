@@ -11,6 +11,7 @@ const authController = require('./controllers/auth.controller')
 const isSignedIn = require('./middleware/is-signed-in')
 const passUserToView = require('./middleware/pass-user-to-view')
 const wishlistController = require('./controllers/wishlist.controller')
+const commentsController = require('./controllers/comments.controller')
 const WishlistItem = require('./models/wishlistItem')
 
 
@@ -27,6 +28,7 @@ app.set('views', './views')
 // MIDDLEWARE
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))
+app.use(express.json()) // Add JSON parsing for comment API requests
 app.use(methodOverride('_method'))
 app.use(morgan('dev'))
 app.use(session({
@@ -46,6 +48,7 @@ app.get('/', (req, res) => {
 // ROUTES
 app.use('/auth', authController)
 app.use('/wishlist', wishlistController)
+app.use('/comments', commentsController)
 
 app.get('/vip-lounge', isSignedIn, (req, res) => {
     res.send(`Welcome ✨`)

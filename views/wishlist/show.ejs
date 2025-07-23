@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <title><%= item.title %> - Souq Wishlist</title>
+</head>
+<%- include('../partials/head') %>
+
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <!-- MAIN ITEM DETAILS -->
+      <div class="card mb-4">
+        <% if (item.imageUrl) { %>
+          <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>" style="height: 400px; object-fit: cover;">
+        <% } %>
+        <div class="card-body">
+          <h1 class="card-title"><%= item.title %></h1>
+          <p class="card-text"><%= item.description %></p>
+          <p class="card-text"><strong>Target Price: <%= item.price %> BHD</strong></p>
+          <div class="d-flex justify-content-between align-items-center">
+            <small class="text-muted">
+              <i class="me-1">👤</i>
+              Wished by: <strong><%= item.owner ? item.owner.username : 'Anonymous' %></strong>
+              <span class="ms-3">   Added: <%= new Date(item.createdAt).toLocaleDateString() %></span>
+            </small>
+            <% if (user && item.owner && user._id.toString() === item.owner._id.toString()) { %>
+              <div>
+                <a href="/wishlist/<%= item._id %>/edit" class="btn btn-outline-primary btn-sm">Edit</a>
+                <form method="POST" action="/wishlist/<%= item._id %>?_method=DELETE" class="d-inline">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                </form>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMENTS SECTION -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <i class="me-2">💬</i>
+            Comments
+          </h5>
+        </div>
+        <div class="card-body">
+          <!-- ADD COMMENT FORM (only if signed in) -->
+          <% if (user) { %>
+            <form class="comment-form mb-4" data-wishlist-id="<%= item._id %>">
+              <div class="mb-3">
+                <textarea class="form-control comment-input" rows="3" 
+                          placeholder="Share your thoughts about this item..." maxlength="500" required></textarea>
+              </div>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+              </div>
+            </form>
+            <hr>
+          <% } else { %>
+            <div class="alert alert-info">
+              <a href="/auth/sign-in">Sign in</a> to add comments
+            </div>
+          <% } %>
+          
+          <!-- COMMENTS LIST -->
+          <div id="comments-list">
+            <div class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading comments...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- SIMPLE NAVIGATION -->
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <a href="/wishlist/browse" class="btn btn-secondary me-2">← Back to Browse</a>
+      <% if (user) { %>
+        <a href="/wishlist" class="btn btn-primary me-2">My Wishlist</a>
+        <a href="/wishlist/new" class="btn btn-success">Add New Item</a>
+      <% } else { %>
+        <a href="/auth/sign-up" class="btn btn-primary">Join Souq Wishlist</a>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- COMMENTS JAVASCRIPT -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const wishlistId = '<%= item._id %>';
+  
+  // Load comments on page load
+  loadComments();
+  
+  // Handle comment form submission
+  const commentForm = document.querySelector('.comment-form');
+  if (commentForm) {
+    commentForm.addEventListener('submit', handleCommentSubmit);
+  }
+  
+  async function loadComments() {
+    try {
+      const response = await fetch(`/comments/wishlist/${wishlistId}`);
+      const comments = await response.json();
+      
+      updateCommentsDisplay(comments);
+    } catch (error) {
+      console.error('Error loading comments:', error);
+      document.getElementById('comments-list').innerHTML = 
+        '<div class="alert alert-danger">Error loading comments</div>';
+    }
+  }
+  
+  function updateCommentsDisplay(comments) {
+    const listElement = document.getElementById('comments-list');
+    
+    // Display comments
+    if (comments.length === 0) {
+      listElement.innerHTML = '<div class="text-center text-muted">No comments yet. Be the first to comment!</div>';
+    } else {
+      listElement.innerHTML = comments.map(comment => `
+        <div class="comment mb-3 p-3 border rounded">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <strong>${comment.author.username}</strong>
+            </div>
+            <small class="text-muted">${new Date(comment.createdAt).toLocaleDateString()}</small>
+          </div>
+          <div>${comment.content}</div>
+        </div>
+      `).join('');
+    }
+  }
+  
+  async function handleCommentSubmit(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const commentInput = form.querySelector('.comment-input');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    const content = commentInput.value.trim();
+    if (!content) return;
+    
+    // Disable form while submitting
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Posting...';
+    
+    try {
+      const response = await fetch(`/comments/wishlist/${wishlistId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          content: content
+        })
+      });
+      
+      if (response.ok) {
+        // Clear form
+        commentInput.value = '';
+        
+        // Reload comments
+        await loadComments();
+        
+        // Show success message
+        const alert = document.createElement('div');
+        alert.className = 'alert alert-success alert-dismissible fade show';
+        alert.innerHTML = `
+          Comment posted successfully! 
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        form.parentNode.insertBefore(alert, form);
+        
+        // Auto-dismiss after 3 seconds
+        setTimeout(() => {
+          if (alert.parentNode) alert.remove();
+        }, 3000);
+      } else {
+        alert('Failed to post comment. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error posting comment:', error);
+      alert('Error posting comment. Please try again.');
+    } finally {
+      // Re-enable form
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Post Comment';
+    }
+  }
+});
+</script>
+
+</body>
+</html>

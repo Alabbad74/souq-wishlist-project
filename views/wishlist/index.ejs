@@ -1,4 +1,13 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <title>Souq Wishlist</title>
+    
+</head>
 <%- include('../partials/head') %>
 
 <div class="container mt-5">
@@ -18,7 +27,7 @@
                   <h5 class="card-title"><%= item.title %></h5>
                   <p class="card-text flex-grow-1"><%= item.description %></p>
                   <% if (item.price) { %>
-                    <p class="card-text"><strong>$<%= item.price %></strong></p>
+                    <p class="card-text"><strong><%= item.price %> BHD</strong></p>
                   <% } %>
                   <% if (item.comments) { %>
                     <div class="card-text">
@@ -29,7 +38,7 @@
                     <a href="/wishlist/<%= item._id %>/edit" class="btn btn-outline-primary btn-sm">Edit</a>
                     
                     <form method="POST" action="/wishlist/<%= item._id %>?_method=DELETE" class="DELETE">
-                      <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">DELETE</button>
+                      <button type="submit" class="btn btn-outline-danger btn-sm">DELETE</button>
                     </form>
                   </div>
                 </div>
