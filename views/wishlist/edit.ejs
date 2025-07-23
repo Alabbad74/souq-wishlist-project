@@ -53,7 +53,7 @@
                     
                     <!-- 💰 PRICE FIELD -->
                     <div class="mb-3">
-                        <label for="price" class="form-label">Target Price (BHD)</label>
+                        <label for="price" class="form-label"> Price (BHD)</label>
                         <input type="number" name="price" id="price" class="form-control" 
                                step="0.01" value="<%= item.price %>">
                         <!-- 
@@ -73,13 +73,6 @@
                         - type="url" = Validates URL format
                         - item.imageUrl || '' = If imageUrl exists, use it, otherwise use empty string
                         -->
-                    </div>
-
-                    <!-- 💬 COMMENTS/NOTES FIELD -->
-                    <div class="mb-3">
-                        <label for="comments" class="form-label">Comments/Notes</label>
-                        <textarea name="comments" id="comments" class="form-control" rows="3" 
-                                  placeholder="Add your personal notes about this item..."><%= item.comments || '' %></textarea>
                     </div>
                     
                     <!-- LESSON 5: Buttons Will Go Here -->
