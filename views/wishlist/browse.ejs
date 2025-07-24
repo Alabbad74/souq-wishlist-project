@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <title>Souq Wishlist</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <title>Browse Wishlists - Souq Wishlist</title>
 </head>
 <body>
 
-<%- include('../partials/head') %>
+<!-- Navbar -->
+<div class="w3-bar w3-black">
+  <a href="/" class="w3-bar-item w3-button">Home</a>
+  <% if (user) { %>
+    <a href="/wishlist" class="w3-bar-item w3-button">My Wishlist</a>
+    <a href="/wishlist/browse" class="w3-bar-item w3-button">Browse Wishlists</a>
+    <a href="/auth/sign-out" class="w3-bar-item w3-button">Sign Out</a>
+  <% } else { %>
+    <a href="/wishlist/browse" class="w3-bar-item w3-button">Browse Wishlists</a>
+    <a href="/auth/sign-in" class="w3-bar-item w3-button">Sign In</a>
+    <a href="/auth/sign-up" class="w3-bar-item w3-button">Sign Up</a>
+  <% } %>
+</div>
 
+<!-- Main Content -->
 <div class="container">
-  <h1 class="browse-page-title">Browse Community Wishlists</h1>
-  <p class="browse-page-subtitle">Discover what others are wishing for and get inspired!</p>
-  
+  <h1>Browse Community Wishlists</h1>
+  <p class="home-description">Discover what others are wishing for and get inspired!</p>
+
   <% if (wishlistItems.length === 0) { %>
-    <div class="browse-empty-state">
+    <div class="text-center py-5 wishlist-card">
       <h3>No wishlists to browse yet!</h3>
-      <p class="browse-empty-text">Be the first to share your wishlist with the community.</p>
+      <p class="text-muted">Be the first to share your wishlist with the community.</p>
       <% if (user) { %>
-        <a href="/wishlist/new" class="btn-primary">Add Your First Item</a>
+        <a href="/wishlist/new" class="btn btn-primary">Add Your First Item</a>
       <% } else { %>
-        <a href="/auth/sign-up" class="btn-primary">Sign Up to Create Wishlist</a>
+        <a href="/auth/sign-up" class="btn btn-primary">Sign Up to Create Wishlist</a>
       <% } %>
     </div>
   <% } else { %>
@@ -34,23 +48,23 @@
           <h4><%= item.title %></h4>
           <p><%= item.description %></p>
           <p class="price"><%= item.price %> BHD</p>
-          <p class="browse-owner-info">
-            By: <strong><%= item.owner ? item.owner.username : 'Anonymous' %></strong>
+          <p style="font-size: 0.9rem; color:#666;">
+            Wished by: <strong><%= item.owner ? item.owner.username : 'Anonymous' %></strong>
           </p>
-          <a href="/wishlist/<%= item._id %>" class="btn btn-primary">View Details</a>
+          <a href="/wishlist/<%= item._id %>" class="btn btn-outline-primary">View</a>
         </div>
       <% }) %>
     </div>
   <% } %>
-  
-  <div class="browse-navigation">
+
+  <div class="mt-4">
     <% if (user) { %>
-      <a href="/wishlist" class="btn-primary browse-nav-btn">My Wishlist</a>
-      <a href="/wishlist/new" class="btn-success browse-nav-btn">Add New Item</a>
+      <a href="/wishlist" class="btn btn-primary">My Wishlist</a>
+      <a href="/wishlist/new" class="btn btn-success">Add New Item</a>
     <% } else { %>
-      <a href="/auth/sign-up" class="btn-primary browse-nav-btn">Join to Create Wishlist</a>
+      <a href="/auth/sign-up" class="btn btn-primary">Join to Create Wishlist</a>
     <% } %>
-    <a href="/" class="btn-secondary browse-nav-btn">Back to Home</a>
+    <a href="/" class="btn btn-secondary">Back to Home</a>
   </div>
 </div>
 

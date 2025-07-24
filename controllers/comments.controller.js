@@ -21,47 +21,66 @@ router.get('/wishlist/:wishlistItemId', async (req, res) => {
 // POST - CREATE A NEW COMMENT
 router.post('/wishlist/:wishlistItemId', isSignedIn, async (req, res) => {
   try {
-    console.log('Creating comment for wishlist:', req.params.wishlistItemId)
-    console.log('User session:', req.session.user ? req.session.user.username : 'No user')
-    console.log('Request body:', req.body)
+    console.log('📝 Creating comment for wishlist:', req.params.wishlistItemId)
+    console.log('👤 User session:', req.session.user ? req.session.user.username : 'No user')
+    console.log('📄 Request body:', req.body)
     
     // Check if the wishlist item exists
     const wishlistItem = await WishlistItem.findById(req.params.wishlistItemId)
     if (!wishlistItem) {
-      console.log('Wishlist item not found')
+      console.log('❌ Wishlist item not found')
       return res.status(404).json({ error: 'Wishlist item not found' })
     }
 
-    console.log('Wishlist item found:', wishlistItem.title)
+    console.log('✅ Wishlist item found:', wishlistItem.title)
+
+    // Validate comment content
+    if (!req.body.content || req.body.content.trim().length === 0) {
+      console.log('❌ Empty comment content')
+      if (req.accepts('json')) {
+        return res.status(400).json({ error: 'Comment content is required' })
+      } else {
+        return res.redirect(`/wishlist/${req.params.wishlistItemId}?error=empty_comment`)
+      }
+    }
+
+    if (req.body.content.length > 500) {
+      console.log('❌ Comment too long')
+      if (req.accepts('json')) {
+        return res.status(400).json({ error: 'Comment too long (max 500 characters)' })
+      } else {
+        return res.redirect(`/wishlist/${req.params.wishlistItemId}?error=comment_too_long`)
+      }
+    }
 
     // Create the comment
     const comment = await Comment.create({
-      content: req.body.content,
+      content: req.body.content.trim(),
       rating: req.body.rating || null,
       author: req.session.user._id,
       wishlistItem: req.params.wishlistItemId
     })
 
-    console.log('Comment created:', comment._id)
+    console.log('✅ Comment created:', comment._id)
 
     // Populate author info for response
     await comment.populate('author', 'username')
 
-    console.log('Comment populated, sending response')
+    console.log('✅ Comment populated, sending response')
 
     // If this is an AJAX request, return JSON
-    if (req.headers['content-type'] === 'application/json' || req.accepts('json')) {
+    if (req.headers['content-type']?.includes('application/json') || req.accepts('json')) {
       res.json(comment)
     } else {
-      // If it's a form submission, redirect back
-      res.redirect(`/wishlist/browse`)
+      // If it's a form submission, redirect back to the item page
+      res.redirect(`/wishlist/${req.params.wishlistItemId}`)
     }
   } catch (error) {
-    console.log('Error creating comment:', error)
+    console.log('❌ Error creating comment:', error)
     if (req.accepts('json')) {
       res.status(500).json({ error: 'Failed to create comment' })
     } else {
-      res.redirect('/wishlist/browse?error=comment_failed')
+      res.redirect(`/wishlist/${req.params.wishlistItemId}?error=comment_failed`)
     }
   }
 })
@@ -69,6 +88,15 @@ router.post('/wishlist/:wishlistItemId', isSignedIn, async (req, res) => {
 // PUT - UPDATE A COMMENT (only by author)
 router.put('/:commentId', isSignedIn, async (req, res) => {
   try {
+    // Validate comment content
+    if (!req.body.content || req.body.content.trim().length === 0) {
+      return res.status(400).json({ error: 'Comment content is required' })
+    }
+
+    if (req.body.content.length > 500) {
+      return res.status(400).json({ error: 'Comment too long (max 500 characters)' })
+    }
+
     const comment = await Comment.findById(req.params.commentId)
     
     if (!comment) {
@@ -84,7 +112,7 @@ router.put('/:commentId', isSignedIn, async (req, res) => {
     const updatedComment = await Comment.findByIdAndUpdate(
       req.params.commentId,
       {
-        content: req.body.content,
+        content: req.body.content.trim(),
         rating: req.body.rating || comment.rating
       },
       { new: true }

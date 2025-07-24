@@ -14,34 +14,26 @@
   <h2 class="text-center mb-4">My Wishlist</h2>
 
   <% if (wishlistItems && wishlistItems.length > 0) { %>
-    <div class="row">
-      <% wishlistItems.forEach(item => { %>
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card h-100 shadow-sm border-0">
-            <% if (item.imageUrl) { %>
-              <img src="<%= item.imageUrl %>" class="card-img-top my-wishlist-card-img" alt="<%= item.title %>">
-            <% } %>
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title"><%= item.title %></h5>
-              <p class="card-text text-muted flex-grow-1"><%= item.description %></p>
-              <% if (item.price) { %>
-                <p class="fw-bold mb-2"><%= item.price %> BHD</p>
-              <% } %>
-              <% if (item.comments) { %>
-                <small class="text-muted d-block mb-2">Notes: <%= item.comments %></small>
-              <% } %>
+    <% wishlistItems.forEach(item => { %>
+      <div class="wishlist-card">
+        <% if (item.imageUrl) { %>
+          <img src="<%= item.imageUrl %>" alt="<%= item.title %>">
+        <% } %>
+        <h4><%= item.title %></h4>
+        <p><%= item.description %></p>
+        <% if (item.price) { %>
+          <p class="price"><%= item.price %> BHD</p>
+        <% } %>
+        <% if (item.comments) { %>
+          <small class="text-muted d-block mb-2">Notes: <%= item.comments %></small>
+        <% } %>
 
-              <div class="mt-auto d-flex justify-content-between">
-                <a href="/wishlist/<%= item._id %>/edit" class="btn btn-outline-primary btn-sm">Edit</a>
-                <form method="POST" action="/wishlist/<%= item._id %>?_method=DELETE" class="d-inline">
-                  <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% }) %>
-    </div>
+        <a href="/wishlist/<%= item._id %>/edit" class="btn btn-outline-primary">Edit</a>
+        <form action="/wishlist/<%= item._id %>?_method=DELETE" method="POST" style="display:inline;">
+          <button type="submit" class="btn btn-outline-danger">Delete</button>
+        </form>
+      </div>
+    <% }) %>
   <% } else { %>
     <div class="text-center mt-5">
       <h4>Your wishlist is empty</h4>
